@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace TelephoneDirectory
 {
 
- 
+
     public partial class Form1 : Form
     {
 
@@ -15,6 +15,7 @@ namespace TelephoneDirectory
         public Form1()
         {
             InitializeComponent();
+            Display();
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -53,6 +54,82 @@ namespace TelephoneDirectory
             finally
             {
                 con.Close();
+                MessageBox.Show("Successfully added to database");
+                Display();
+            }
+        }
+
+        void Display()
+        {
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * from Mobiles", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dataGridView1.Rows.Clear();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                int n = dataGridView1.Rows.Add();
+                dataGridView1.Rows[n].Cells[0].Value = item[0].ToString();
+                dataGridView1.Rows[n].Cells[1].Value = item[1].ToString();
+                dataGridView1.Rows[n].Cells[2].Value = item[2].ToString();
+                dataGridView1.Rows[n].Cells[3].Value = item[3].ToString();
+                dataGridView1.Rows[n].Cells[4].Value = item[4].ToString();
+            }
+
+        }
+
+        private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            txtFirstName.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+            txtSurname.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+            txtMobile.Text = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+            txtEmail.Text = dataGridView1.SelectedRows[0].Cells[3].Value.ToString();
+            comboBox1.Text = dataGridView1.SelectedRows[0].Cells[4].Value.ToString();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand("DELETE from Mobiles WHERE (Mobile = ' " + txtMobile.Text + "')", con);
+
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                MessageBox.Show("Successfully deleted from database");
+                Display();
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand("DELETE from Mobiles WHERE (Mobile = ' " + txtMobile.Text + "')", con);
+
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                MessageBox.Show("Successfully deleted from database");
+                Display();
             }
         }
     }
