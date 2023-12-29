@@ -48,6 +48,8 @@
             comboBox1 = new ComboBox();
             btnDelete = new Button();
             btnUpdate = new Button();
+            txtSearch = new TextBox();
+            Search = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -236,11 +238,32 @@
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
+            // txtSearch
+            // 
+            txtSearch.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtSearch.Location = new Point(844, 295);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(281, 31);
+            txtSearch.TabIndex = 13;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
+            // Search
+            // 
+            Search.AutoSize = true;
+            Search.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            Search.Location = new Point(746, 295);
+            Search.Name = "Search";
+            Search.Size = new Size(78, 25);
+            Search.TabIndex = 14;
+            Search.Text = "Search :";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1254, 621);
+            Controls.Add(Search);
+            Controls.Add(txtSearch);
             Controls.Add(comboBox1);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -285,5 +308,7 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column5;
+        private TextBox txtSearch;
+        private Label Search;
     }
 }

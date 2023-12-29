@@ -115,22 +115,51 @@ namespace TelephoneDirectory
         {
             try
             {
+
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("UPDATE Mobiles SET FirstName = '" + txtFirstName.Text + "', Surname = '" + txtSurname.Text + "', Mobile = '" + txtMobile.Text + "', Email = '" + txtEmail.Text + "', Category = '" + txtComboBox1.Text + "' WHERE (Mobile = ' " + txtMobile.Text + "')", con);
-             
+                string query = "UPDATE Mobiles SET FirstName = @FirstName, Surname = @Surname, Mobile = @Mobile, Email = @Email, Category = @Category WHERE Mobile = @OldMobile";
 
-                cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
+                    cmd.Parameters.AddWithValue("@Surname", txtSurname.Text);
+                    cmd.Parameters.AddWithValue("@Mobile", txtMobile.Text);
+                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@Category", comboBox1.Text);
+                    cmd.Parameters.AddWithValue("@OldMobile", txtMobile.Text);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                con.Close();
+                MessageBox.Show("Successfully Updated");
+                Display();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
-            finally
+
+
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT * from Mobiles Where (Mobile like '%" + txtSearch.Text +"%') or (FirstName like '%" + txtSearch.Text + "%') or (Surname like '%" + txtSearch.Text +"%')", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dataGridView1.Rows.Clear();
+
+            foreach (DataRow item in dt.Rows)
             {
-                con.Close();
-                MessageBox.Show("Successfully Updated");
-                Display();
+                int n = dataGridView1.Rows.Add();
+                dataGridView1.Rows[n].Cells[0].Value = item[0].ToString();
+                dataGridView1.Rows[n].Cells[1].Value = item[1].ToString();
+                dataGridView1.Rows[n].Cells[2].Value = item[2].ToString();
+                dataGridView1.Rows[n].Cells[3].Value = item[3].ToString();
+                dataGridView1.Rows[n].Cells[4].Value = item[4].ToString();
             }
         }
     }
