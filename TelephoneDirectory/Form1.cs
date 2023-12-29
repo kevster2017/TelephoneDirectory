@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -93,7 +94,7 @@ namespace TelephoneDirectory
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("DELETE from Mobiles WHERE (Mobile = ' " + txtMobile.Text + "')", con);
+                SqlCommand cmd = new SqlCommand("DELETE FROM Mobiles WHERE (Mobile = '" + txtMobile.Text + "')", con);
 
 
                 cmd.ExecuteNonQuery();
@@ -116,8 +117,8 @@ namespace TelephoneDirectory
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("DELETE from Mobiles WHERE (Mobile = ' " + txtMobile.Text + "')", con);
-
+                SqlCommand cmd = new SqlCommand("UPDATE Mobiles SET FirstName = '" + txtFirstName.Text + "', Surname = '" + txtSurname.Text + "', Mobile = '" + txtMobile.Text + "', Email = '" + txtEmail.Text + "', Category = '" + txtComboBox1.Text + "' WHERE (Mobile = ' " + txtMobile.Text + "')", con);
+             
 
                 cmd.ExecuteNonQuery();
             }
@@ -128,7 +129,7 @@ namespace TelephoneDirectory
             finally
             {
                 con.Close();
-                MessageBox.Show("Successfully deleted from database");
+                MessageBox.Show("Successfully Updated");
                 Display();
             }
         }
